@@ -33,7 +33,7 @@ export default function Products() {
 
 function Loader() {
     return (
-        <section className="flex justify-center my-20 px-2">
+        <section className="flex justify-center my-20 px-2 ">
             <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-x-4 lg:gap-y-16 md:gap-y-12 gap-y-8 gap-x-2 max-w-6xl">
                 {[...Array(6)].map((e, i) => (
                     <div key={i} className="md:w-[250px]">
