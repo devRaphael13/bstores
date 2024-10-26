@@ -44,6 +44,7 @@ export default function Products() {
 
     return (
         <section className="flex justify-center my-20 px-2">
+            {/* Product  */}
             <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-x-4 lg:gap-y-16 md:gap-y-12 gap-y-8 gap-x-2 max-w-6xl">
                 {products.length > 0 ? (
                     products.map((product) => (
@@ -67,6 +68,7 @@ export default function Products() {
                     </div>
                 )}
             </div>
+            {/* End of Product  */}
         </section>
     );
 }
