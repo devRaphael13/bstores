@@ -5,7 +5,7 @@ import { MdEmail } from "react-icons/md";
 
 export default function Footer() {
     return (
-        <section className="bg-[#001f3f] flex flex-col items-center gap-4 p-14">
+        <section className="bg-oxfordblue flex flex-col items-center gap-4 p-14">
             <div className="relative lines flex justify-center gap-6">
                 <ImFacebook className="text-gray-300 w-5 h-5"/>
                 <AiFillInstagram className="text-gray-300 w-5 h-5"/>

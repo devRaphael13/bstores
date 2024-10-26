@@ -94,3 +94,12 @@ body {
     margin-right: 170%
   }
 }
+
+.action {
+  background: rgba(255, 255, 255, 0.641);
+  transition: top 0.5s ease
+}
+
+.card:hover .action {
+  top: 0
+}
