@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import fetcher from "../utils/fetcher";
 import Link from "next/link";
 import { useEffect, useState } from "react";

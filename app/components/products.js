@@ -1,7 +1,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import fetcher from "../utils/fetcher";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
 export default function Products() {
     const baseUrl = "https://bstores-backend.vercel.app/products/"
@@ -43,6 +43,7 @@ export default function Products() {
     }
 
     return (
+        <Suspense>
         <section className="flex justify-center my-20 px-2">
             {/* Product  */}
             <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-x-4 lg:gap-y-16 md:gap-y-12 gap-y-8 gap-x-2 max-w-6xl">
@@ -70,6 +71,7 @@ export default function Products() {
             </div>
             {/* End of Product  */}
         </section>
+        </Suspense>
     );
 }
 
