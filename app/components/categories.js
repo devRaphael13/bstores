@@ -1,6 +1,8 @@
 "use client";
 
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import fetcher from "../utils/fetcher";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Categories() {
@@ -17,9 +19,11 @@ export default function Categories() {
         <section className="px-2">
             <div className="flex justify-center w-full ">
                 <div className="flex scrollbar gap-2 max-w-6xl overflow-auto">
-                <button className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">All</button>
+                    <Link href="/" className="category border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">All</Link>
                     {categories.map((cat) => (
-                        <button key={cat.id} className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">{cat.name}</button>
+                        <Link href={{pathname: "/", query: {category: cat.name}}} key={cat.id} className="category border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">
+                            {cat.name}
+                        </Link>
                     ))}
                 </div>
             </div>
