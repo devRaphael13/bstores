@@ -34,7 +34,7 @@ export default function Products() {
 
     if (loading) return <Loader />;
 
-    if (products.length < 1) {
+    if (products.results.length < 1) {
         return (
             <div className="my-20 w-full flex justify-center italic">
                 <h1 className="inline-block text-center text-3xl text-gray-400 font-semibold">Nothing To Show...</h1>
@@ -46,8 +46,8 @@ export default function Products() {
         <section className="flex justify-center my-20 px-2">
             {/* Product  */}
             <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-x-4 lg:gap-y-16 md:gap-y-12 gap-y-8 gap-x-2 max-w-6xl">
-                {products.length > 0 ? (
-                    products.map((product) => (
+                {products.results.length > 0 ? (
+                    products.results.map((product) => (
                         <article key={product.id} className="card relative overflow-hidden md:w-[250px] rounded-sm">
                             <div className="absolute flex flex-col justify-center px-2 gap-2 -top-full w-full h-full action">
                                 <button className="block border border-oxfordblue bg-oxfordblue text-white px-4 py-2 rounded-sm">Add to cart</button>
