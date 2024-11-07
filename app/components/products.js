@@ -1,36 +1,45 @@
 "use client";
 import { useSearchParams } from "next/navigation";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
+import { LuArrowLeftToLine } from "react-icons/lu";
+import { LuArrowRightToLine } from "react-icons/lu";
 import fetcher from "../utils/fetcher";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
+import { useRouter } from "next/navigation";
 
 export default function Products() {
-    const baseUrl = "https://bstores-backend.vercel.app/products/"
+    const baseUrl = "https://bstores-backend.vercel.app/products/";
     const [products, setProducts] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [url, setUrl] = useState(baseUrl)
+    const [url, setUrl] = useState(baseUrl);
     const params = useSearchParams();
-    const categoryParam = params.get("category")
-
+    const categoryParam = params.get("category");
 
     useEffect(() => {
         fetcher(url, setProducts, setLoading);
     }, [url]);
 
     useEffect(() => {
-        let query = []
+        if (products) {
+        window.scrollTo(0, 0)
+        }
+    }, [products])
+
+    useEffect(() => {
+        let query = [];
 
         if (categoryParam) {
-            query.push(`category=${categoryParam}`)
+            query.push(`category=${categoryParam}`);
         }
 
-        const filterUrl = `${baseUrl}?${query.join("&")}`
+        const filterUrl = `${baseUrl}?${query.join("&")}`;
 
         if (filterUrl != url) {
-            setLoading(true)
-            setUrl(filterUrl)
+            setLoading(true);
+            setUrl(filterUrl);
         }
-
-    }, [categoryParam])
+    }, [categoryParam]);
 
     if (loading) return <Loader />;
 
@@ -43,7 +52,7 @@ export default function Products() {
     }
 
     return (
-        <section className="flex justify-center my-20 px-2">
+        <section className="flex flex-col items-center my-20 px-2 gap-20">
             {/* Product  */}
             <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-x-4 lg:gap-y-16 md:gap-y-12 gap-y-8 gap-x-2 max-w-6xl">
                 {products.results.length > 0 ? (
@@ -57,7 +66,7 @@ export default function Products() {
                                 <img className="md:w-[250px] h-[250px] rounded-sm object-cover" src={product.image} />
                             </div>
                             <div className="mt-4">
-                                <h1 className="line-clamp-1">{product.name}</h1>
+                                <h1 className="line-clamp-1 uppercase">{product.name}</h1>
                                 <p className="font-bold text-lg">₦{product.price}</p>
                             </div>
                         </article>
@@ -69,6 +78,7 @@ export default function Products() {
                 )}
             </div>
             {/* End of Product  */}
+            <Pagination {...{ setProducts, setLoading, baseUrl, count: products.count, next: products.next, prev: products.prev }} />
         </section>
     );
 }
@@ -88,5 +98,62 @@ function Loader() {
                 ))}
             </div>
         </section>
+    );
+}
+
+function Pagination({ setProducts, setLoading, baseUrl, count }) {
+    const url = `${baseUrl}?page=`;
+    const totalPages = Math.floor(count / 10) + 1;
+    const [prev, setPrev] = useState(null);
+    const [next, setNext] = useState(2);
+    const [isNextDisabled, setIsNextDisabled] = useState(false)
+    const [isPrevDisabled, setIsPrevDisabled] = useState(true)
+    const router = useRouter()
+
+    const handleStartBtn = () => {
+        fetcher(url + 1, setProducts, setLoading);
+        setPrev(null);
+        setNext(2)
+    };
+
+    const handleEndBtn = () => {
+        fetcher(url + totalPages, setProducts, setLoading);
+        setPrev(totalPages - 1);
+        setNext(null);
+    };
+
+    const handleNextBtn = () => {
+        if (next <= totalPages) {
+            fetcher(url + next, setProducts, setLoading);
+            setNext(next + 1);
+            setPrev(next - 1);
+        }
+    };
+
+    const handlePrevBtn = () => {
+        if (prev >= 1) {
+            fetcher(url + prev, setProducts, setLoading);
+            setPrev(prev - 1);
+            setNext(prev + 1);
+        }
+    };
+
+    useEffect(() => {
+        setIsNextDisabled(prev === null)
+        setIsPrevDisabled(next > totalPages)
+    }, [next, prev])
+
+
+
+    return (
+        <div className="flex gap-2">
+            <button onClick={handleStartBtn} className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><LuArrowLeftToLine /></button>
+            <button onClick={handlePrevBtn} disabled={isPrevDisabled} className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><IoIosArrowBack /></button>
+            <button className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">1</button>
+            <button className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">2</button>
+            <button className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">3</button>
+            <button onClick={handleNextBtn} disabled={isNextDisabled} className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><IoIosArrowForward /></button>
+            <button onClick={handleEndBtn} className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><LuArrowRightToLine /></button>
+        </div>
     );
 }
