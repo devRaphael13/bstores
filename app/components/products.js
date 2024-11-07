@@ -6,7 +6,6 @@ import { LuArrowLeftToLine } from "react-icons/lu";
 import { LuArrowRightToLine } from "react-icons/lu";
 import fetcher from "../utils/fetcher";
 import { useState, useEffect} from "react";
-import { useRouter } from "next/navigation";
 
 export default function Products() {
     const baseUrl = "https://bstores-backend.vercel.app/products/";
@@ -78,7 +77,7 @@ export default function Products() {
                 )}
             </div>
             {/* End of Product  */}
-            <Pagination {...{ setProducts, setLoading, baseUrl, count: products.count, next: products.next, prev: products.prev }} />
+            <Pagination {...{ setProducts, setLoading, baseUrl, count: products.count }} />
         </section>
     );
 }
@@ -107,19 +106,27 @@ function Pagination({ setProducts, setLoading, baseUrl, count }) {
     const [prev, setPrev] = useState(null);
     const [next, setNext] = useState(2);
     const [isNextDisabled, setIsNextDisabled] = useState(false)
-    const [isPrevDisabled, setIsPrevDisabled] = useState(true)
-    const router = useRouter()
+    const [isPrevDisabled, setIsPrevDisabled] = useState(false)
+    const params = useSearchParams()
+
+    const update_params = (page) => {
+        const query = new URLSearchParams(params.toString())
+        query.set("page", page)
+        window.history.pushState({}, "", `${window.location.pathname}?${query.toString()}`)
+    }
 
     const handleStartBtn = () => {
         fetcher(url + 1, setProducts, setLoading);
-        setPrev(null);
+        setPrev(0);
         setNext(2)
+        update_params(1)
     };
 
     const handleEndBtn = () => {
         fetcher(url + totalPages, setProducts, setLoading);
         setPrev(totalPages - 1);
-        setNext(null);
+        setNext(totalPages + 1);
+        update_params(totalPages)
     };
 
     const handleNextBtn = () => {
@@ -127,6 +134,7 @@ function Pagination({ setProducts, setLoading, baseUrl, count }) {
             fetcher(url + next, setProducts, setLoading);
             setNext(next + 1);
             setPrev(next - 1);
+            update_params(next)
         }
     };
 
@@ -135,15 +143,9 @@ function Pagination({ setProducts, setLoading, baseUrl, count }) {
             fetcher(url + prev, setProducts, setLoading);
             setPrev(prev - 1);
             setNext(prev + 1);
+            update_params(prev)
         }
     };
-
-    useEffect(() => {
-        setIsNextDisabled(prev === null)
-        setIsPrevDisabled(next > totalPages)
-    }, [next, prev])
-
-
 
     return (
         <div className="flex gap-2">
