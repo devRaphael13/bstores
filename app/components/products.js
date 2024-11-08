@@ -131,14 +131,22 @@ function Pagination({ setProducts, setLoading, baseUrl, count }) {
             setNext(next + 1);
             setPrev(next - 1);
             update_params(next)
+
+            if ((next + 1) <= totalPages) {
+                setPagNums([next - 1, next, next + 1])
+            }
         }
     };
 
     const handlePrevBtn = () => {
-        if (prev >= 1) {
+        if (prev > 0) {
             setPrev(prev - 1);
             setNext(prev + 1);
             update_params(prev)
+
+            if ((prev - 1) > 0) {
+                setPagNums([prev - 1, prev, prev + 1])
+            }
         }
     };
 
