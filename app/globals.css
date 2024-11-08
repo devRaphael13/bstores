@@ -107,3 +107,7 @@ body {
 ::backdrop {
   opacity: 0.7;
 }
+
+.active {
+  border-color: #001f3f;
+}

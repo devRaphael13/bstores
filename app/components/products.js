@@ -21,7 +21,7 @@ export default function Products() {
 
     useEffect(() => {
         if (products) {
-        window.scrollTo(0, 0)
+        window.scrollTo({top: 0, left: 0, behavior: "smooth"})
         }
     }, [products])
 
@@ -105,8 +105,7 @@ function Pagination({ setProducts, setLoading, baseUrl, count }) {
     const totalPages = Math.floor(count / 10) + 1;
     const [prev, setPrev] = useState(null);
     const [next, setNext] = useState(2);
-    const [isNextDisabled, setIsNextDisabled] = useState(false)
-    const [isPrevDisabled, setIsPrevDisabled] = useState(false)
+    const [pagNums, setPagNums] = useState([1, 2, 3])
     const params = useSearchParams()
 
     const update_params = (page) => {
@@ -116,14 +115,12 @@ function Pagination({ setProducts, setLoading, baseUrl, count }) {
     }
 
     const handleStartBtn = () => {
-        fetcher(url + 1, setProducts, setLoading);
         setPrev(0);
         setNext(2)
         update_params(1)
     };
 
     const handleEndBtn = () => {
-        fetcher(url + totalPages, setProducts, setLoading);
         setPrev(totalPages - 1);
         setNext(totalPages + 1);
         update_params(totalPages)
@@ -131,7 +128,6 @@ function Pagination({ setProducts, setLoading, baseUrl, count }) {
 
     const handleNextBtn = () => {
         if (next <= totalPages) {
-            fetcher(url + next, setProducts, setLoading);
             setNext(next + 1);
             setPrev(next - 1);
             update_params(next)
@@ -140,22 +136,48 @@ function Pagination({ setProducts, setLoading, baseUrl, count }) {
 
     const handlePrevBtn = () => {
         if (prev >= 1) {
-            fetcher(url + prev, setProducts, setLoading);
             setPrev(prev - 1);
             setNext(prev + 1);
             update_params(prev)
         }
     };
 
+    const handleNumBtn = (event) => {
+        const num = parseInt(event.target.textContent);
+        setNext(num + 1)
+        setPrev(num - 1)
+        update_params(num)
+    }
+
+    const handleActiveBtn = (page) => {
+        const pagebtns = document.getElementsByClassName("pagbtn")
+
+        for (let btn of pagebtns) {
+            if (parseInt(btn.textContent) == page) {
+                btn.classList.add("active")
+            } else {
+                btn.classList.remove("active")
+            }
+        }
+    }
+
+    useEffect(() => {
+        const page = params.get("page")
+        if (page) fetcher(url + page, setProducts, setLoading)
+        handleActiveBtn(page)
+
+    }, [params])
+
     return (
         <div className="flex gap-2">
-            <button onClick={handleStartBtn} className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><LuArrowLeftToLine /></button>
-            <button onClick={handlePrevBtn} disabled={isPrevDisabled} className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><IoIosArrowBack /></button>
-            <button className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">1</button>
-            <button className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">2</button>
-            <button className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">3</button>
-            <button onClick={handleNextBtn} disabled={isNextDisabled} className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><IoIosArrowForward /></button>
-            <button onClick={handleEndBtn} className="border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><LuArrowRightToLine /></button>
+            <button onClick={handleStartBtn} className="border hover:border-oxfordblue border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><LuArrowLeftToLine /></button>
+            <button onClick={handlePrevBtn} className="border hover:border-oxfordblue border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><IoIosArrowBack /></button>
+
+            {pagNums.map((num, count) => (
+            <button key={count} onClick={handleNumBtn} className="pagbtn hover:border-oxfordblue border border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap">{num}</button>
+            ))}
+            <button onClick={handleNextBtn} className="border hover:border-oxfordblue border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><IoIosArrowForward /></button>
+            <button onClick={handleEndBtn} className="border hover:border-oxfordblue border-gray-300 px-4 py-2 rounded-sm hover:bg-gray-100 text-nowrap"><LuArrowRightToLine /></button>
         </div>
     );
 }
