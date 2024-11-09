@@ -3,7 +3,6 @@ import Header from "./components/header";
 import Categories from "./components/categories";
 import Products from "./components/products";
 import Footer from "./components/footer";
-import OrderDialog from "./components/orderDialog";
 import { Suspense } from "react";
 
 export default function Home() {
