@@ -29,7 +29,7 @@ export default function Order({ isOrderOpen, setIsOrderOpen, currProduct }) {
 
 
     return (
-        <dialog id="order" className="border border-oxfordblue rounded-sm z-10 p-4 w-[400px]">
+        <dialog id="order" className="border border-oxfordblue  rounded-sm z-10 p-4 w-[400px]">
             <div>
                 <small className="text-md">{currProduct && currProduct.category}</small>
                 <h1 className="uppercase">{currProduct && currProduct.name}</h1>
