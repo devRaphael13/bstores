@@ -4,16 +4,19 @@ import { useSearchParams } from "next/navigation";
 import fetcher from "../utils/fetcher";
 import { useState, useEffect} from "react";
 import Pagination from "./pagination";
+import { IoBagCheck } from "react-icons/io5";
 import Order from "./order";
 
 export default function Products() {
-    const baseUrl = "https://bstores-backend.vercel.app/products/";
     const [products, setProducts] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isOrderOpen, setIsOrderOpen] = useState(false)
     const [currProduct, setCurrProduct] = useState(null)
-    const [url, setUrl] = useState(baseUrl);
+    const [cart, setCart] = useState({})
     const params = useSearchParams();
+
+    const baseUrl = "https://bstores-backend.vercel.app/products/";
+    const [url, setUrl] = useState(baseUrl);
     const categoryParam = params.get("category");
 
     useEffect(() => {
@@ -56,9 +59,11 @@ export default function Products() {
         setCurrProduct(product)
     }
 
+
+
     return (
-        <section className="flex flex-col items-center my-20 px-2 gap-20">
-            <Order {...{isOrderOpen, setIsOrderOpen, currProduct}}/>
+        <section className="relative flex flex-col items-center my-20 px-2 gap-20">
+            <Order {...{isOrderOpen, setIsOrderOpen, currProduct, cart, setCart}}/>
             {/* Product  */}
             <div className="grid lg:grid-cols-4 grid-cols-2 md:gap-x-4 lg:gap-y-16 md:gap-y-12 gap-y-8 gap-x-2 max-w-6xl">
                 {products.results.length > 0 ? (
@@ -83,6 +88,10 @@ export default function Products() {
                     </div>
                 )}
             </div>
+            <button className="sticky bg-oxfordblue p-4 rounded-full left-[85%] bottom-[20%] text-white">
+                <span className="absolute bg-gray-300 text-foreground z-10 right-[75%] top-[0] px-1.5 border-2 border-white rounded-full">{Object.keys(cart).length}</span>
+                <IoBagCheck size={28} />
+            </button>
             {/* End of Product  */}
             <Pagination {...{ setProducts, setLoading, baseUrl, count: products.count }} />
         </section>
