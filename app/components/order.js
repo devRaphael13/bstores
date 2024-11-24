@@ -32,18 +32,21 @@ export default function Order({ isOrderOpen, setIsOrderOpen, currProduct, cart, 
     });
 
     const handleAddToCart = () => {
-        if (currProduct) {
-            setCart({ ...cart, [currProduct.id]:currProduct });
-            setIsOrderOpen(false);
-            resetChoice()
-        }
-
+        
         if (currProduct && currProduct.colours.length && !("colour" in colSize)) {
             setColError(true);
         }
-
-        if (currProduct && currProduct.sizes.length && !("size" in colSize)) {
+        
+        else if (currProduct && currProduct.sizes.length && !("size" in colSize)) {
             setSizeError(true);
+        }
+
+        else if (currProduct) {
+            const {id, name, price, image} = currProduct
+            setCart([ ...cart, { ...colSize, id, name, price, image} ]);
+            setIsOrderOpen(false);
+            resetChoice()
+            setColSize({})
         }
     };
 
@@ -73,7 +76,7 @@ export default function Order({ isOrderOpen, setIsOrderOpen, currProduct, cart, 
     };
 
     return (
-        <dialog id="order" className="border border-oxfordblue rounded-sm z-10 p-4 w-[400px]">
+        <dialog id="order" className="border border-oxfordblue rounded z-10 p-4 w-[400px]">
             <div>
                 <small className="text-md">{currProduct && currProduct.category}</small>
                 <h1 className="uppercase">{currProduct && currProduct.name}</h1>
@@ -98,7 +101,7 @@ export default function Order({ isOrderOpen, setIsOrderOpen, currProduct, cart, 
                             </button>
                         ))
                     ) : (
-                        <div className="size px-4 py-2 rounded-sm bg-gray-300 border border-gray-300">N/A</div>
+                        <div className="size px-4 py-2 rounded bg-gray-300 border border-gray-300">N/A</div>
                     )}
                 </div>
             </div>

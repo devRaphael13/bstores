@@ -34,22 +34,22 @@ function Loader() {
     return (
         <div className="flex justify-center w-full">
             <div className="flex gap-2 max-w-6xl overflow-hidden">
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
-                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded-sm"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
+                <div className="animate-pulse px-8 py-4 bg-gray-300 rounded"></div>
             </div>
         </div>
     );
